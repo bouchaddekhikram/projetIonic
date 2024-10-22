@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Task Manager</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Upcoming Tasks -->
+ <ion-list *ngIf="upcomingTasks.length > 0">
+  <ion-item *ngFor="let item of upcomingTasks">
+    <ion-label>
+      <h2>{{ item.name }}</h2>
+      <p>{{ item.description }}</p>
+      <p>Due: {{ item.dueDate | date: 'fullDate' }}</p>
+    </ion-label>
+    <ion-checkbox [(ngModel)]="item.isCompleted" (ionChange)="toggleComplete(item)"></ion-checkbox>
+  </ion-item>
+</ion-list>
+
+<!-- Message if no tasks are available -->
+<ion-item *ngIf="upcomingTasks.length === 0">
+  <ion-label>No upcoming tasks</ion-label>
+</ion-item>
+
+  <!-- Overdue Tasks -->
+  <ion-list *ngIf="overdueTasks.length">
+    <ion-item-divider color="danger">Overdue Tasks</ion-item-divider>
+    <ion-item *ngFor="let item of overdueTasks" class="task-overdue">
+      <ion-label>
+        <h2>{{ item.name }}</h2>
+        <p>{{ item.description }}</p>
+        <p class="task-due-date">Due: {{ item.dueDate | date: 'fullDate' }}</p>
+      </ion-label>
+      <ion-checkbox [(ngModel)]="item.isCompleted" (ionChange)="toggleComplete(item)"></ion-checkbox>
+      <ion-button color="primary" (click)="navigateToEdit(item.id)">Edit</ion-button>
+      <ion-button color="danger" (click)="deleteItem(item.id)">Delete</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Completed Tasks -->
+  <ion-list *ngIf="completedTasks.length">
+    <ion-item-divider color="success">Completed Tasks</ion-item-divider>
+    <ion-item *ngFor="let item of completedTasks" class="task-completed">
+      <ion-label>
+        <h2>{{ item.name }}</h2>
+        <p>{{ item.description }}</p>
+        <p class="task-due-date">Due: {{ item.dueDate | date: 'fullDate' }}</p>
+      </ion-label>
+      <ion-checkbox [(ngModel)]="item.isCompleted" (ionChange)="toggleComplete(item)"></ion-checkbox>
+      <ion-button color="primary" (click)="navigateToEdit(item.id)">Edit</ion-button>
+      <ion-button color="danger" (click)="deleteItem(item.id)">Delete</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Add Task Button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="navigateToAdd()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
